@@ -7,6 +7,7 @@ public class Driver {
         InstructionFinder instructionFinder = new InstructionFinder("inputs/day3.txt");
         WordFinder wordFinder = new WordFinder("inputs/day4.txt");
         PageSorter pageSorter = new PageSorter("inputs/day5.txt");
+        GuardMapper guardMapper = new GuardMapper("inputs/test.txt");
 
         System.out.println("Advent of Code 2024");
 
@@ -29,5 +30,9 @@ public class Driver {
         System.out.println();
         System.out.println("Problem 5.1: " + pageSorter.getSumOfCorrectPages());
         System.out.println("Problem 5.2: " + pageSorter.getSumOfIncorrectPages());
+
+        System.out.println();
+        System.out.println("Problem 6.1: " + guardMapper.getVisitedCount());
+        System.out.println("Problem 6.2: " + guardMapper.getLoopCount());
     }
 }
