@@ -11,14 +11,18 @@ public class GuardMapper {
 
     private char[][] map;
     private int[] start;
-    private int visitedCount, loopCount;
+    private int visitedCount, loopCount, turnCount;
+    private ArrayList<int[]> visited;
 
     public GuardMapper(String address) {
         visitedCount = 0;
         loopCount = 0;
+        turnCount = 0;
+        visited = new ArrayList<int[]>();
         parseInput(address);
         findStart();
         trackGuard();
+        checkForLoops();
         for (char[] line : map) {
             System.out.println(line);
         }
@@ -65,61 +69,97 @@ public class GuardMapper {
     }
 
     private void trackGuard() {
+        char[][] guardPath = new char[map.length][map[0].length];
+
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map[0].length; j++) {
+                guardPath[i][j] = map[i][j];
+            }
+        }
+
         int x = start[0], y = start[1], dir = 0;
 
-        map[x][y] = 'X';
+        guardPath[x][y] = String.valueOf(dir).charAt(0);
         visitedCount++;
         while (isInbounds(x, y)) {
-            dir = checkForTurn(x, y, dir);
+            visited.add(new int[] {x, y, dir});
+            dir = checkForTurn(x, y, dir, guardPath);
 
             x += directions[dir][0];
             y += directions[dir][1];
 
-            if (map[x][y] != 'X') {
+            if (guardPath[x][y] == '.') {
                 visitedCount++;
-                map[x][y] = 'X';
-                /* if (!(start[0] == x + directions[dir][0] && start[1] == y + directions[dir][1])) {
-                    loopCount += checkLoop(x, y, (dir + 1) % 4);
-                } */
-            }/*  else if (!(start[0] == x + directions[dir][0] && start[1] == y + directions[dir][1])) {
-                loopCount += checkLoop(x, y, (dir + 1) % 4);
-            } */
-
-            if (!(start[0] == x + directions[dir][0] && start[1] == y + directions[dir][1])) {
-                loopCount += checkLoop(x, y, (dir + 1) % 4);
+                guardPath[x][y] = String.valueOf(dir).charAt(0);
             }
         }
     }
 
-    private int checkLoop(int a, int b, int dir) {
-        int x = a + directions[dir][0];
-        int y = b + directions[dir][1];
+    private void checkForLoops() {
+        for (int[] point : visited) {
+            if (hasLoop(point)) {
+                loopCount++;
+            }
+        }
+    }
 
-        while (isInbounds(x, y) && !(x == a && y == b)) {
-            dir = checkForTurn(x, y, dir);
-            
-            x += directions[dir][0];
-            y += directions[dir][1];
+    private boolean hasLoop(int[] point) {
+        char[][] guardPath = new char[map.length][map[0].length];
+
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map[0].length; j++) {
+                guardPath[i][j] = map[i][j];
+            }
         }
 
-        
-        return (x == a && y == b) ? 1 : 0;
-        // see if you can navigate similar to how you have previously navigated
-        // if you can, and you get to starting x, y in the correct direction, increment loopCount
+        int x = point[0], y = point[1], dir = point[2];
+        int a = x, b = y;
+
+        int nextX = x + directions[dir][0], nextY = y + directions[dir][1];
+
+        if (guardPath[nextX][nextY] == '^') {
+            return false;
+        } 
+
+        guardPath[nextX][nextY] = '#';
+        int count = 0;
+        while (isInbounds(x, y) && count < (4*a*b)) {
+            dir = checkForTurn(x, y, dir, guardPath);
+
+            x += directions[dir][0];
+            y += directions[dir][1];
+
+            if (isLoop(point, x, y, dir)) {
+                return true;
+            }
+            count++;
+        }
+        return count > (4*a*b);
     }
 
     private boolean isInbounds(int x, int y) {
         return x > 0 && y > 0 && x < map.length - 1 && y < map[0].length - 1;
     }
 
-    private int checkForTurn(int x, int y, int dir) {
+    private boolean isLoop(int[] point, int a, int b, int dir) {
+        return point[0] == a && point[1] == b && point[2] == dir;
+    }
+
+    private int checkForTurn(int x, int y, int dir, char[][] map) {
         while (map[x + directions[dir][0]][y + directions[dir][1]] == '#') {
             dir = (dir + 1) % directions.length;
+            turnCount++;
         }
-
         return dir;
     }
 
-    
 }
 
+// part 2 guesses:
+
+// 163: too low
+// 353: too low
+// 388: no commentary
+// 654: no commentary
+// 1269: no commentary
+// 1543: no commentary

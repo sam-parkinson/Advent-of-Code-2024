@@ -36,3 +36,6 @@ public class Driver {
         System.out.println("Problem 6.2: " + guardMapper.getLoopCount());
     }
 }
+
+
+// 1543: no commentary
