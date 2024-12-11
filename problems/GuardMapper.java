@@ -1,7 +1,11 @@
 package problems;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Scanner;
 
 public class GuardMapper {
@@ -12,20 +16,22 @@ public class GuardMapper {
     private char[][] map;
     private int[] start;
     private int visitedCount, loopCount, turnCount;
-    private ArrayList<int[]> visited;
+    private HashSet<Integer> visited, turns;
 
     public GuardMapper(String address) {
         visitedCount = 0;
         loopCount = 0;
         turnCount = 0;
-        visited = new ArrayList<int[]>();
+        visited = new HashSet<Integer>();
+        turns = new HashSet<Integer>();
         parseInput(address);
         findStart();
         trackGuard();
+        System.out.println(visited.size());
         checkForLoops();
-        for (char[] line : map) {
+        /* for (char[] line : map) {
             System.out.println(line);
-        }
+        } */
     }
 
     public int getVisitedCount() {
@@ -80,11 +86,13 @@ public class GuardMapper {
         int x = start[0], y = start[1], dir = 0;
 
         guardPath[x][y] = String.valueOf(dir).charAt(0);
+
         visitedCount++;
         while (isInbounds(x, y)) {
-            visited.add(new int[] {x, y, dir});
+            // replace hash setup with: bit shift x 8 bits to the left, add y -- will be unique;
+            visited.add(makePointMask(x, y));
             dir = checkForTurn(x, y, dir, guardPath);
-
+            
             x += directions[dir][0];
             y += directions[dir][1];
 
@@ -92,18 +100,21 @@ public class GuardMapper {
                 visitedCount++;
                 guardPath[x][y] = String.valueOf(dir).charAt(0);
             }
+            
         }
     }
 
     private void checkForLoops() {
-        for (int[] point : visited) {
+        for (Integer point : visited) {
             if (hasLoop(point)) {
                 loopCount++;
-            }
+            } 
         }
     }
 
-    private boolean hasLoop(int[] point) {
+    private boolean hasLoop(Integer point) {
+        int a = point >> 8, b = point & 255;
+        
         char[][] guardPath = new char[map.length][map[0].length];
 
         for (int i = 0; i < map.length; i++) {
@@ -112,37 +123,40 @@ public class GuardMapper {
             }
         }
 
-        int x = point[0], y = point[1], dir = point[2];
-        int a = x, b = y;
+        int x = start[0], y = start[1], dir = 0;
+        int p = map.length, q = map[0].length;
 
-        int nextX = x + directions[dir][0], nextY = y + directions[dir][1];
+        int nextX = a + directions[dir][0], nextY = b + directions[dir][1];
 
         if (guardPath[nextX][nextY] == '^') {
             return false;
-        } 
+        }
+        
+        //dir = (dir + 1) % 4;
 
         guardPath[nextX][nextY] = '#';
         int count = 0;
-        while (isInbounds(x, y) && count < (4*a*b)) {
+        while (isInbounds(x, y) && count < (4*p*q)) {
             dir = checkForTurn(x, y, dir, guardPath);
-
+            
             x += directions[dir][0];
             y += directions[dir][1];
 
-            if (isLoop(point, x, y, dir)) {
+            if (!turns.add(makeTurnMask(x, y, dir))) {
                 return true;
-            }
+            };
+            
             count++;
         }
-        return count > (4*a*b);
+        return count == (4*p*q);
     }
 
     private boolean isInbounds(int x, int y) {
         return x > 0 && y > 0 && x < map.length - 1 && y < map[0].length - 1;
     }
 
-    private boolean isLoop(int[] point, int a, int b, int dir) {
-        return point[0] == a && point[1] == b && point[2] == dir;
+    private boolean isLoop(Integer point) {
+        return turns.contains(point);
     }
 
     private int checkForTurn(int x, int y, int dir, char[][] map) {
@@ -151,6 +165,14 @@ public class GuardMapper {
             turnCount++;
         }
         return dir;
+    }
+
+    private Integer makePointMask(int x, int y) {
+        return (x << 8) | y;
+    }
+
+    private Integer makeTurnMask(int x, int y, int dir) {
+        return ((x << 8) | y << 1) | dir ;
     }
 
 }
