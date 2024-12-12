@@ -104,14 +104,6 @@ public class GuardMapper {
 
     private boolean hasLoop(int[] point) {
         int a = point[0], b = point[1];
-        
-        // char[][] guardPath = new char[map.length][map[0].length];
-
-        /* for (int i = 0; i < map.length; i++) {
-            for (int j = 0; j < map[0].length; j++) {
-                guardPath[i][j] = map[i][j];
-            }
-        } */
 
         int x = start[0], y = start[1], dir = 0;
         int p = map.length, q = map[0].length;
