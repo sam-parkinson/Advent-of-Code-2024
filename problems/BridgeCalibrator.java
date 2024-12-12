@@ -94,8 +94,18 @@ public class BridgeCalibrator {
 
         long add = total + terms[i];
         long multiply = total * terms[i];
-        long concat = Long.parseLong(Long.toString(total).concat(Long.toString(terms[i])));
+        long concat = concatenateLongs(total, terms[i]);
 
         return concatCanBeTrue(target, terms, multiply, i + 1) || concatCanBeTrue(target, terms, add, i + 1) || concatCanBeTrue(target, terms, concat, i + 1);
+    }
+
+    private long concatenateLongs(long a, long b) {
+        long tens = 1;
+        while (tens <= b) {
+            tens *= 10;
+        }
+
+        a = a * tens;
+        return a + b;
     }
 }
