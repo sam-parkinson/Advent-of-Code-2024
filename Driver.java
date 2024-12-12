@@ -7,7 +7,7 @@ public class Driver {
         InstructionFinder instructionFinder = new InstructionFinder("inputs/day3.txt");
         WordFinder wordFinder = new WordFinder("inputs/day4.txt");
         PageSorter pageSorter = new PageSorter("inputs/day5.txt");
-        GuardMapper guardMapper = new GuardMapper("inputs/test.txt");
+        GuardMapper guardMapper = new GuardMapper("inputs/day6.txt");
 
         System.out.println("Advent of Code 2024");
 

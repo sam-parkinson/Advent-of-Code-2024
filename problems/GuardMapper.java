@@ -1,11 +1,8 @@
 package problems;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Scanner;
 
 public class GuardMapper {
@@ -15,23 +12,17 @@ public class GuardMapper {
 
     private char[][] map;
     private int[] start;
-    private int visitedCount, loopCount, turnCount;
-    private HashSet<Integer> visited, turns;
+    private int visitedCount, loopCount;
+    private HashMap<Integer, int[]> visited;
 
     public GuardMapper(String address) {
         visitedCount = 0;
         loopCount = 0;
-        turnCount = 0;
-        visited = new HashSet<Integer>();
-        turns = new HashSet<Integer>();
+        visited = new HashMap<Integer, int[]>();
         parseInput(address);
         findStart();
         trackGuard();
-        System.out.println(visited.size());
         checkForLoops();
-        /* for (char[] line : map) {
-            System.out.println(line);
-        } */
     }
 
     public int getVisitedCount() {
@@ -89,8 +80,6 @@ public class GuardMapper {
 
         visitedCount++;
         while (isInbounds(x, y)) {
-            // replace hash setup with: bit shift x 8 bits to the left, add y -- will be unique;
-            visited.add(makePointMask(x, y));
             dir = checkForTurn(x, y, dir, guardPath);
             
             x += directions[dir][0];
@@ -100,54 +89,46 @@ public class GuardMapper {
                 visitedCount++;
                 guardPath[x][y] = String.valueOf(dir).charAt(0);
             }
-            
+            visited.put(makePointMask(x, y), new int[] {x, y});
         }
+        
     }
 
     private void checkForLoops() {
-        for (Integer point : visited) {
+        for (int[] point : visited.values()) {
             if (hasLoop(point)) {
                 loopCount++;
             } 
         }
     }
 
-    private boolean hasLoop(Integer point) {
-        int a = point >> 8, b = point & 255;
+    private boolean hasLoop(int[] point) {
+        int a = point[0], b = point[1];
         
-        char[][] guardPath = new char[map.length][map[0].length];
+        // char[][] guardPath = new char[map.length][map[0].length];
 
-        for (int i = 0; i < map.length; i++) {
+        /* for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[0].length; j++) {
                 guardPath[i][j] = map[i][j];
             }
-        }
+        } */
 
         int x = start[0], y = start[1], dir = 0;
         int p = map.length, q = map[0].length;
 
-        int nextX = a + directions[dir][0], nextY = b + directions[dir][1];
-
-        if (guardPath[nextX][nextY] == '^') {
+        if (map[a][b] == '^') {
             return false;
         }
-        
-        //dir = (dir + 1) % 4;
 
-        guardPath[nextX][nextY] = '#';
+        map[a][b] = '#';
         int count = 0;
         while (isInbounds(x, y) && count < (4*p*q)) {
-            dir = checkForTurn(x, y, dir, guardPath);
-            
+            dir = checkForTurn(x, y, dir, map);
             x += directions[dir][0];
             y += directions[dir][1];
-
-            if (!turns.add(makeTurnMask(x, y, dir))) {
-                return true;
-            };
-            
             count++;
         }
+        map[a][b] = '.';
         return count == (4*p*q);
     }
 
@@ -155,14 +136,9 @@ public class GuardMapper {
         return x > 0 && y > 0 && x < map.length - 1 && y < map[0].length - 1;
     }
 
-    private boolean isLoop(Integer point) {
-        return turns.contains(point);
-    }
-
     private int checkForTurn(int x, int y, int dir, char[][] map) {
         while (map[x + directions[dir][0]][y + directions[dir][1]] == '#') {
             dir = (dir + 1) % directions.length;
-            turnCount++;
         }
         return dir;
     }
@@ -170,11 +146,6 @@ public class GuardMapper {
     private Integer makePointMask(int x, int y) {
         return (x << 8) | y;
     }
-
-    private Integer makeTurnMask(int x, int y, int dir) {
-        return ((x << 8) | y << 1) | dir ;
-    }
-
 }
 
 // part 2 guesses:
