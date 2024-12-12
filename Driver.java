@@ -8,6 +8,7 @@ public class Driver {
         WordFinder wordFinder = new WordFinder("inputs/day4.txt");
         PageSorter pageSorter = new PageSorter("inputs/day5.txt");
         GuardMapper guardMapper = new GuardMapper("inputs/day6.txt");
+        BridgeCalibrator bridgeCalibrator = new BridgeCalibrator("inputs/day7.txt");
 
         System.out.println("Advent of Code 2024");
 
@@ -34,8 +35,9 @@ public class Driver {
         System.out.println();
         System.out.println("Problem 6.1: " + guardMapper.getVisitedCount());
         System.out.println("Problem 6.2: " + guardMapper.getLoopCount());
+
+        System.out.println();
+        System.out.println("Problem 7.1: " + bridgeCalibrator.getTotalCalibrationResult());
+        System.out.println("Problem 7.2: " + bridgeCalibrator.getConcatCalibrationResult());
     }
 }
-
-
-// 1543: no commentary
