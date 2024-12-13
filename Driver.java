@@ -43,6 +43,6 @@ public class Driver {
 
         System.out.println();
         System.out.println("Problem 8.1: " + antinodeFinder.getSimpleAntinodeCount());
-        System.out.println("Problem 8.2: ");
+        System.out.println("Problem 8.2: " + antinodeFinder.getResonantAntinodeCount());
     }
 }

@@ -64,9 +64,7 @@ public class AntinodeFinder {
 
     private void addCoordsToNodeMap(int x, int y, char c) {
         nodesMap.putIfAbsent(c, new ArrayList<int[]>());
-
         ArrayList<int[]> arr = nodesMap.get(c);
-
         arr.add(new int[] {x, y});
     }
 
@@ -83,17 +81,14 @@ public class AntinodeFinder {
 
     private void addAntinode(int[] arr1, int[] arr2, char c) {
         int x1 = arr1[0], y1 = arr1[1], x2 = arr2[0], y2 = arr2[1];
-
         int xSlope = Math.abs(x1 - x2), ySlope = Math.abs(y1 - y2);
-
         int a1, b1, a2, b2;
         if (y1 < y2) {
             a1 = x1 - xSlope;
             b1 = y1 - ySlope;
             a2 = x2 + xSlope;
             b2 = y2 + ySlope;
-        } 
-        else {
+        } else {
             a1 = x1 - xSlope;
             b1 = y1 + ySlope;
             a2 = x2 + xSlope;
@@ -107,8 +102,46 @@ public class AntinodeFinder {
         if (isInbounds(a2, b2)) {
             addToSimpleAntinodes(a2, b2);
         }
-        
-        // add new methods here -- keep moving in direction of slope until you go out of bounds
+
+        if (y1 < y2) {
+            travelNwSe(a1, b1, a2, b2, xSlope, ySlope);
+        } else {
+            travelNeSw(a1, b1, a2, b2, xSlope, ySlope);
+        }
+    }
+
+    private void travelNwSe(int x1, int y1, int x2, int y2, int xSlope, int ySlope) {
+        int a = x1, b = y1;
+        while (isInbounds(a, b)) {
+            addToResonantAntinodes(a, b);
+            a -= xSlope;
+            b -= ySlope;
+        }
+
+        a = x2;
+        b = y2;
+        while (isInbounds(a, b)) {
+            addToResonantAntinodes(a, b); 
+            a += xSlope;
+            b += ySlope;
+        }
+    }
+
+    private void travelNeSw(int x1, int y1, int x2, int y2, int xSlope, int ySlope) {
+        int a = x1, b = y1;
+        while (isInbounds(a, b)) {
+            addToResonantAntinodes(a, b);
+            a -= xSlope;
+            b += ySlope;
+        }
+
+        a = x2;
+        b = y2;
+        while (isInbounds(a, b)) {
+            addToResonantAntinodes(a, b);
+            a += xSlope;
+            b -= ySlope;
+        }
     }
 
     private boolean isInbounds(int a, int b) {
