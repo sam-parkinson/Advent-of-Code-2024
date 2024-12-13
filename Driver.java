@@ -9,6 +9,7 @@ public class Driver {
         PageSorter pageSorter = new PageSorter("inputs/day5.txt");
         GuardMapper guardMapper = new GuardMapper("inputs/day6.txt");
         BridgeCalibrator bridgeCalibrator = new BridgeCalibrator("inputs/day7.txt");
+        AntinodeFinder antinodeFinder = new AntinodeFinder("inputs/day8.txt");
 
         System.out.println("Advent of Code 2024");
 
@@ -39,5 +40,9 @@ public class Driver {
         System.out.println();
         System.out.println("Problem 7.1: " + bridgeCalibrator.getTotalCalibrationResult());
         System.out.println("Problem 7.2: " + bridgeCalibrator.getConcatCalibrationResult());
+
+        System.out.println();
+        System.out.println("Problem 8.1: " + antinodeFinder.getSimpleAntinodeCount());
+        System.out.println("Problem 8.2: ");
     }
 }
