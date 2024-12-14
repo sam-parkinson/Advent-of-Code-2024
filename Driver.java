@@ -10,6 +10,7 @@ public class Driver {
         GuardMapper guardMapper = new GuardMapper("inputs/day6.txt");
         BridgeCalibrator bridgeCalibrator = new BridgeCalibrator("inputs/day7.txt");
         AntinodeFinder antinodeFinder = new AntinodeFinder("inputs/day8.txt");
+        ChecksumFinder checksumFinder = new ChecksumFinder("inputs/test.txt");
 
         System.out.println("Advent of Code 2024");
 
@@ -44,5 +45,9 @@ public class Driver {
         System.out.println();
         System.out.println("Problem 8.1: " + antinodeFinder.getSimpleAntinodeCount());
         System.out.println("Problem 8.2: " + antinodeFinder.getResonantAntinodeCount());
+
+        System.out.println();
+        System.out.println("Problem 9.1: " + checksumFinder.getChecksum());
+        System.out.println("Problem 9.2: " + checksumFinder.getTrueChecksum());
     }
 }
