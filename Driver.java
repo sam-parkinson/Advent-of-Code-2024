@@ -11,6 +11,7 @@ public class Driver {
         BridgeCalibrator bridgeCalibrator = new BridgeCalibrator("inputs/day7.txt");
         AntinodeFinder antinodeFinder = new AntinodeFinder("inputs/day8.txt");
         ChecksumFinder checksumFinder = new ChecksumFinder("inputs/day9.txt");
+        HikingGuide hikingGuide = new HikingGuide("inputs/day10.txt");
 
         System.out.println("Advent of Code 2024");
 
@@ -49,5 +50,9 @@ public class Driver {
         System.out.println();
         System.out.println("Problem 9.1: " + checksumFinder.getChecksum());
         System.out.println("Problem 9.2: " + checksumFinder.getTrueChecksum());
+
+        System.out.println();
+        System.out.println("Problem 10.1: " + hikingGuide.getTrailheadScoreSum());
+        System.out.println("Problem 10.2: " + hikingGuide.getTrailheadRatingSum());
     }
 }
