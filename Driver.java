@@ -10,7 +10,7 @@ public class Driver {
         GuardMapper guardMapper = new GuardMapper("inputs/day6.txt");
         BridgeCalibrator bridgeCalibrator = new BridgeCalibrator("inputs/day7.txt");
         AntinodeFinder antinodeFinder = new AntinodeFinder("inputs/day8.txt");
-        ChecksumFinder checksumFinder = new ChecksumFinder("inputs/test.txt");
+        ChecksumFinder checksumFinder = new ChecksumFinder("inputs/day9.txt");
 
         System.out.println("Advent of Code 2024");
 

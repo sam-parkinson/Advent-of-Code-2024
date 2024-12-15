@@ -101,7 +101,6 @@ public class ChecksumFinder {
         }
     }
 
-    // TODO: FIX
     private void compactDisk() {
         for (int i = 0; i < compactedDisk.length; i++) {
             compactedDisk[i] = disk.get(i);
@@ -125,15 +124,13 @@ public class ChecksumFinder {
             Integer index = i;
 
             for (Integer key : spaceMap.keySet()) {
-                if (key >= fileSize && spaceMap.get(key).peek() < index) {
-
+                if (key >= fileSize && spaceMap.get(key).peek() <= index) {
                     index = spaceMap.get(key).peek();
                     gapSize = key;
-                    
                 }
             }
 
-            if (index < i) {
+            if (gapSize > 0) {
                 spaceMap.get(gapSize).poll();
                 if (spaceMap.get(gapSize).isEmpty()) {
                     spaceMap.remove(gapSize);
@@ -150,10 +147,8 @@ public class ChecksumFinder {
                     spaceMap.put(newGap, new PriorityQueue<Integer>());
                 }
 
-                PriorityQueue<Integer> queue = spaceMap.get(newGap);
-                queue.add(index + fileSize);
+                spaceMap.get(newGap).add(index + fileSize);
             }
-            System.out.print(" ");
         }
     }
 
@@ -167,5 +162,3 @@ public class ChecksumFinder {
         return ans;
     }
 }
-
-// 6488291460301: too high
