@@ -13,6 +13,7 @@ public class Driver {
         ChecksumFinder checksumFinder = new ChecksumFinder("inputs/day9.txt");
         HikingGuide hikingGuide = new HikingGuide("inputs/day10.txt");
         StoneCounter stoneCounter = new StoneCounter("inputs/day11.txt");
+        GardenExpense gardenExpense = new GardenExpense("inputs/day12.txt");
 
         System.out.println("Advent of Code 2024");
 
@@ -59,5 +60,9 @@ public class Driver {
         System.out.println();
         System.out.println("Problem 11.1: " + stoneCounter.getCountAfter25());
         System.out.println("Problem 11.2: " + stoneCounter.getCountAfter75());
+
+        System.out.println();
+        System.out.println("Problem 12.1: " + gardenExpense.getPerimPrice());
+        System.out.println("Problem 12.2: ");
     }
 }
