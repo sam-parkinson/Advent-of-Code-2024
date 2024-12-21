@@ -10,19 +10,27 @@ public class GardenExpense {
     private int[][] directions = {
         {-1, 0}, {0, 1}, {1, 0}, {0, -1}
     };
+    private int[][] corners = {
+        {-1, 1}, {1, 1}, {1, -1}, {-1, -1}
+    };
     private char[][] gardenMap;
     private boolean[][] visited;
-    private int perimPrice;
+    private int perimPrice, sidesPrice;
 
     public GardenExpense(String address) {
         parseInput(address);
         visited = new boolean[gardenMap.length][gardenMap[0].length];
         perimPrice = 0;
+        sidesPrice = 0;
         calculatePrices();
     }
 
     public int getPerimPrice() {
         return this.perimPrice;
+    }
+
+    public int getSidesPrice() {
+        return this.sidesPrice;
     }
 
     private void parseInput(String address) {
@@ -94,9 +102,78 @@ public class GardenExpense {
         }
 
         perimPrice += area * perimeter;
+        int sides = countVertices(inRegion);
+        sidesPrice += area * sides;
     }
 
     private boolean isInbounds(int x, int y) {
         return x >= 0 && y >= 0 && x < gardenMap.length && y < gardenMap[0].length;
+    }
+
+    private int countVertices(boolean[][] garden) {
+        int ans = 0;
+
+        for (int i = 0; i < garden.length; i++) {
+            for (int j = 0; j < garden[0].length; j++) {
+                if (garden[i][j] == true) {
+                    ans += countVerticesAtPoint(i, j, garden);
+                }    
+            }
+        }
+
+        return ans;
+    }
+
+    private int countVerticesAtPoint(int x, int y, boolean[][] garden) {
+        int vertices = 0;
+
+        for (int i = 0; i < corners.length; i++) {
+            int a = x + corners[i][0], b = y + corners[i][1];
+
+            boolean state = isInbounds(a, b) ? garden[a][b] : false;
+            vertices += isValidCorner(i, x, y, state, garden);   
+        }
+        return vertices;
+    }
+
+    private int isValidCorner(int dir, int x, int y, boolean state, boolean[][] garden) {
+        int[] dirA = directions[dir];
+        int[] dirB = directions[(dir + 1) % 4];
+
+        int xA = x + dirA[0], yA = y + dirA[1], xB = x + dirB[0], yB = y + dirB[1];
+
+        if (!isInbounds(xA, yA) && !isInbounds(xB, yB)) {
+            return 1;
+        }
+
+        if (state == true) {
+            if (!isInbounds(xA, yA) && isInbounds(xB, yB) && garden[xB][yB] == false) {
+                return 1;
+            }
+
+            if (isInbounds(xA, yA) && !isInbounds(xB, yB) && garden[xA][yA] == false) {
+                return 1;
+            }
+
+            if (isInbounds(xA, yA) && isInbounds(xB, yB) && garden[xA][yA] == false && garden[xB][yB] == false) {
+                return 1;
+            }
+        }
+
+        if (state == false) {
+            if (!isInbounds(xA, yA) && isInbounds(xB, yB) && garden[xB][yB] == false) {
+                return 1;
+            }
+
+            if (isInbounds(xA, yA) && !isInbounds(xB, yB) && garden[xA][yA] == false) {
+                return 1;
+            }
+
+            if (isInbounds(xA, yA) && isInbounds(xB, yB) && garden[xA][yA] == garden[xB][yB]) {
+                return 1;
+            }
+        }
+
+        return 0;
     }
 }

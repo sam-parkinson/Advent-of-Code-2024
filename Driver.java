@@ -63,6 +63,6 @@ public class Driver {
 
         System.out.println();
         System.out.println("Problem 12.1: " + gardenExpense.getPerimPrice());
-        System.out.println("Problem 12.2: ");
+        System.out.println("Problem 12.2: " + gardenExpense.getSidesPrice());
     }
 }
