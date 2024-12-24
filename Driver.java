@@ -14,6 +14,7 @@ public class Driver {
         HikingGuide hikingGuide = new HikingGuide("inputs/day10.txt");
         StoneCounter stoneCounter = new StoneCounter("inputs/day11.txt");
         GardenExpense gardenExpense = new GardenExpense("inputs/day12.txt");
+        ClawGame clawGame = new ClawGame("inputs/day13.txt");
 
         System.out.println("Advent of Code 2024");
 
@@ -64,5 +65,9 @@ public class Driver {
         System.out.println();
         System.out.println("Problem 12.1: " + gardenExpense.getPerimPrice());
         System.out.println("Problem 12.2: " + gardenExpense.getSidesPrice());
+
+        System.out.println();
+        System.out.println("Problem 13.1: " + clawGame.getTotalMinCost());
+        System.out.println("Problem 13.2: " + clawGame.getTotalTrueMinCost());
     }
 }
