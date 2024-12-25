@@ -73,6 +73,6 @@ public class Driver {
 
         System.out.println();
         System.out.println("Problem 14.1: " + robotTracker.getTotalSafetyFactor());
-        System.out.println("Problem 14.2: ");
+        System.out.println("Problem 14.2: " + robotTracker.getTreeTimeStamp());
     }
 }

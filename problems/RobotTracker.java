@@ -2,6 +2,7 @@ package problems;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Scanner;
 
 public class RobotTracker {
@@ -17,6 +18,7 @@ public class RobotTracker {
         parseInput(address);
         findRobotPositions(100);
         this.totalSafetyFactor = findTotalSafetyFactor();
+        this.treeTimeStamp = findTreeTimeStamp();
     }
 
     public int getTotalSafetyFactor() {
@@ -56,18 +58,9 @@ public class RobotTracker {
 
     private void findRobotPositions(int time) {
         for (int[] robot : robots) {
-            int x = (robot[0] + (robot[2] * time)) % WIDTH;
-            int y = (robot[1] + (robot[3] * time)) % HEIGHT;
+            int[] pos = advanceRobot(robot, time);
 
-            if (x < 0) {
-                x += WIDTH;
-            }
-
-            if (y < 0) {
-                y += HEIGHT;
-            }
-
-            placeInQuadrant(x, y);
+            placeInQuadrant(pos[0], pos[1]);
         }
     }
 
@@ -89,5 +82,53 @@ public class RobotTracker {
             ans *= quad;
         }
         return ans;
+    }
+
+    private int findTreeTimeStamp() {
+        boolean foundSet = false;
+        int i = 0;
+        int[] maxTime = {0, 0};
+        while (!foundSet && i < HEIGHT * WIDTH) {
+            HashSet<Integer> set = new HashSet<>();
+            
+            int j = 0;
+            for (int[] robot : robots) {
+                set.add(makeRobotInt(robot, i));
+            }
+
+            if (set.size() > maxTime[0]) {
+                maxTime[0] = set.size();
+                maxTime[1] = i;
+            }
+
+            if (set.size() == robots.size()) {
+                foundSet = true;
+            }
+            i++;
+
+        }
+
+        return maxTime[1];
+    }
+
+    private int makeRobotInt(int[] robot, int t) {
+        int[] pos = advanceRobot(robot, t);
+
+        return pos[0] * 1000 + pos[1];
+    }
+
+    private int[] advanceRobot(int[] robot, int t) {
+        int x = (robot[0] + (robot[2] * t)) % WIDTH;
+        int y = (robot[1] + (robot[3] * t)) % HEIGHT;
+
+        if (x < 0) {
+            x += WIDTH;
+        }
+
+        if (y < 0) {
+            y += HEIGHT;
+        }
+
+        return new int[] {x, y};
     }
 }
