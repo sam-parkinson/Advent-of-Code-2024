@@ -91,7 +91,6 @@ public class RobotTracker {
         while (!foundSet && i < HEIGHT * WIDTH) {
             HashSet<Integer> set = new HashSet<>();
             
-            int j = 0;
             for (int[] robot : robots) {
                 set.add(makeRobotInt(robot, i));
             }
