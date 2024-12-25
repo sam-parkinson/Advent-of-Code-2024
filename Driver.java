@@ -15,6 +15,7 @@ public class Driver {
         StoneCounter stoneCounter = new StoneCounter("inputs/day11.txt");
         GardenExpense gardenExpense = new GardenExpense("inputs/day12.txt");
         ClawGame clawGame = new ClawGame("inputs/day13.txt");
+        RobotTracker robotTracker = new RobotTracker("inputs/day14.txt");
 
         System.out.println("Advent of Code 2024");
 
@@ -69,5 +70,9 @@ public class Driver {
         System.out.println();
         System.out.println("Problem 13.1: " + clawGame.getTotalMinCost());
         System.out.println("Problem 13.2: " + clawGame.getTotalTrueMinCost());
+
+        System.out.println();
+        System.out.println("Problem 14.1: " + robotTracker.getTotalSafetyFactor());
+        System.out.println("Problem 14.2: ");
     }
 }
