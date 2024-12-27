@@ -16,6 +16,7 @@ public class Driver {
         GardenExpense gardenExpense = new GardenExpense("inputs/day12.txt");
         ClawGame clawGame = new ClawGame("inputs/day13.txt");
         RobotTracker robotTracker = new RobotTracker("inputs/day14.txt");
+        Warehouse warehouse = new Warehouse("inputs/day15.txt");
 
         System.out.println("Advent of Code 2024");
 
@@ -74,5 +75,9 @@ public class Driver {
         System.out.println();
         System.out.println("Problem 14.1: " + robotTracker.getTotalSafetyFactor());
         System.out.println("Problem 14.2: " + robotTracker.getTreeTimeStamp());
+
+        System.out.println();
+        System.out.println("Problem 15.1: " + warehouse.getGpsCoordSum());
+        System.out.println("Problem 15.2: ");
     }
 }

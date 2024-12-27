@@ -139,12 +139,3 @@ public class GuardMapper {
         return (x << 8) | y;
     }
 }
-
-// part 2 guesses:
-
-// 163: too low
-// 353: too low
-// 388: no commentary
-// 654: no commentary
-// 1269: no commentary
-// 1543: no commentary
