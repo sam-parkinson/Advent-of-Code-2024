@@ -78,6 +78,6 @@ public class Driver {
 
         System.out.println();
         System.out.println("Problem 15.1: " + warehouse.getGpsCoordSum());
-        System.out.println("Problem 15.2: ");
+        System.out.println("Problem 15.2: " + warehouse.getWideGpsCoordSum());
     }
 }
