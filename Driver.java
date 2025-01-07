@@ -17,6 +17,7 @@ public class Driver {
         ClawGame clawGame = new ClawGame("inputs/day13.txt");
         RobotTracker robotTracker = new RobotTracker("inputs/day14.txt");
         Warehouse warehouse = new Warehouse("inputs/day15.txt");
+        ReindeerMaze reindeerMaze = new ReindeerMaze("inputs/day16.txt");
 
         System.out.println("Advent of Code 2024");
 
@@ -79,5 +80,9 @@ public class Driver {
         System.out.println();
         System.out.println("Problem 15.1: " + warehouse.getGpsCoordSum());
         System.out.println("Problem 15.2: " + warehouse.getWideGpsCoordSum());
+
+        System.out.println();
+        System.out.println("Problem 16.1: " + reindeerMaze.getMinScore());
+        System.out.println("Problem 16.2: " + reindeerMaze.getSeatCount());
     }
 }
