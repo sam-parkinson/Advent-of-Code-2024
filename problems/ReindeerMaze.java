@@ -10,10 +10,10 @@ import java.util.Scanner;
 
 public class ReindeerMaze {
     private class Reindeer {
-        private HashSet<Integer> path;
+        private ArrayList<Integer> path;
         private int position, score, direction;
 
-        private Reindeer(int position, int score, int direction, HashSet<Integer> path) {
+        private Reindeer(int position, int score, int direction, ArrayList<Integer> path) {
             this.position = position;
             this.score = score;
             this.direction = direction;
@@ -81,7 +81,7 @@ public class ReindeerMaze {
         int startId = makeSeatId(x, y);
         Queue<Reindeer> queue = new LinkedList<>();
         ArrayList<Reindeer> reachedEnd = new ArrayList<>();
-        HashSet<Integer> path = new HashSet<>();
+        ArrayList<Integer> path = new ArrayList<>();
         path.add(startId);
 
         Reindeer start = new Reindeer(startId, points, direction, path);
@@ -119,12 +119,11 @@ public class ReindeerMaze {
                         
                         int nextSeat = makeSeatId(nextA, nextB);
 
-                        if (maze[nextA][nextB] != '#') {
-                            HashSet<Integer> newPath = new HashSet<>(current.path);
-                            newPath.add(nextSeat);
-        
-                            queue.add(new Reindeer(nextSeat, tempScore, i, newPath));
-                        }
+                        ArrayList<Integer> newPath = new ArrayList<>(current.path);
+                        newPath.add(nextSeat);
+    
+                        queue.add(new Reindeer(nextSeat, tempScore, i, newPath));
+                        
                     }                        
                 }
             }
