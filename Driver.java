@@ -18,6 +18,7 @@ public class Driver {
         RobotTracker robotTracker = new RobotTracker("inputs/day14.txt");
         Warehouse warehouse = new Warehouse("inputs/day15.txt");
         ReindeerMaze reindeerMaze = new ReindeerMaze("inputs/day16.txt");
+        OpcodeComputer opcodeComputer = new OpcodeComputer("inputs/day17.txt");
 
         System.out.println("Advent of Code 2024");
 
@@ -84,5 +85,9 @@ public class Driver {
         System.out.println();
         System.out.println("Problem 16.1: " + reindeerMaze.getMinScore());
         System.out.println("Problem 16.2: " + reindeerMaze.getSeatCount());
+
+        System.out.println();
+        System.out.println("Problem 17.1: " + opcodeComputer.getOutputString());
+        System.out.println("Problem 17.2: ");
     }
 }

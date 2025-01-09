@@ -72,8 +72,7 @@ public class ReindeerMaze {
         for (int[][] seat : visited) {
             for (int[] dir : seat) {
                 Arrays.fill(dir, Integer.MAX_VALUE);
-            }
-            
+            }    
         }
     }
 
@@ -123,7 +122,6 @@ public class ReindeerMaze {
                         newPath.add(nextSeat);
     
                         queue.add(new Reindeer(nextSeat, tempScore, i, newPath));
-                        
                     }                        
                 }
             }
